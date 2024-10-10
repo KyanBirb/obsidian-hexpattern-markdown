@@ -1,0 +1,9 @@
+{
+	"id": "hexpattern-markdown",
+	"name": "Hex Pattern Markdown",
+	"version": "1.0.0",
+	"minAppVersion": "0.15.0",
+	"description": "Adds support for rendering Hex Casting patterns in markdown.",
+	"author": "KyanBirb",
+	"isDesktopOnly": false
+}

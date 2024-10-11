@@ -77,19 +77,23 @@ export default class SinglePatternSketch extends P5 {
 
         const angle = Math.atan2(y2 - y1, x2 - x1) + Math.PI * 0.5;
 
+        const n = this.noise;
+        function getNoise(t: number, amplitude: number): Point {
+            const off = (n((time * speed), t * frequency, noiseOffset) * 2 - 1) * intensity;
+            const x = Math.cos(angle) * off * amplitude;
+            const y = Math.sin(angle) * off * amplitude;
+            return [x, y];
+        }
+
         let lX = x1;
         let lY = y1;
-
         for(let i = 1; i < segments; i++) {
             const t = i / segments;
             const endDist = 1 - Math.abs(0.5 - t);
+            const offset = getNoise(t, endDist);
 
-            const offset = (this.noise((time * speed), t * frequency, noiseOffset) * 2 - 1) * intensity;
-            const offX = Math.cos(angle) * offset * endDist;
-            const offY = Math.sin(angle) * offset * endDist;
-
-            const x = this.lerp(x1, x2, t) + offX;
-            const y = this.lerp(y1, y2, t) + offY;
+            const x = this.lerp(x1, x2, t) + offset[0];
+            const y = this.lerp(y1, y2, t) + offset[1];
 
             this.line(lX, lY, x, y);
 
@@ -100,10 +104,8 @@ export default class SinglePatternSketch extends P5 {
         this.line(lX, lY, x2, y2);
 
         if(directionIndicator) {
-            const offset = (this.noise((time * speed), 0.5 * frequency, noiseOffset) * 2 - 1) * intensity;
-            const offX = Math.cos(angle) * offset;
-            const offY = Math.sin(angle) * offset;
-            this.directionIndicator(x1 + offX, y1 + offY, x2 + offY, y2 + offY, 0.05);
+            const offset = getNoise(0.5, 1);
+            this.directionIndicator(x1 + offset[0], y1 + offset[1], x2 + offset[0], y2 + offset[1], 0.05);
         }
     }
 

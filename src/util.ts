@@ -5,6 +5,14 @@ export type BoundingBox = {
     max: Point
 };
 
+export type WigglyLineOptions = {
+    intensity?: number,
+    segments?: number,
+    speed?: number,
+    frequency?: number,
+    noiseOffset?: number
+};
+
 export function toRadians(degrees: number): number {
 	return degrees * Math.PI / 180;
 }

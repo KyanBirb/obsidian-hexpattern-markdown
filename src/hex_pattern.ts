@@ -31,7 +31,7 @@ export default class HexPattern {
     width: number;
     height: number;
 
-    constructor(direction: StartingDirection, angles: AngleDirection[], initialize: boolean) {
+    constructor(direction: StartingDirection, angles: AngleDirection[], initialize = true) {
         this.direction = direction;
         this.angles = angles;
 
@@ -43,7 +43,7 @@ export default class HexPattern {
         }
     }
 
-    static fromString(patternString: string, initialize: boolean): HexPattern {
+    static fromString(patternString: string, initialize = true): HexPattern {
 		const data: string[] = patternString.substring(1, patternString.length - 1).split(' ').map(s => s.trim());
 		const directionString: string = data[0].toUpperCase();
 		const anglesString: string = data[1].toUpperCase();

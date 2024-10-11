@@ -14,7 +14,7 @@ export default class HexPatternMarkdown extends Plugin {
 			const rows = source.split('\n').filter((row) => row.length > 0);
 
 			try {
-				const pattern = HexPattern.fromString(rows[0], true);
+				const pattern = HexPattern.fromString(rows[0]);
 				const _sketch = new SinglePatternSketch(pattern, element, this);
 			} catch {
 				// Ignored

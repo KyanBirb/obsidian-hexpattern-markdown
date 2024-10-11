@@ -10,7 +10,8 @@ export type WigglyLineOptions = {
     segments?: number,
     speed?: number,
     frequency?: number,
-    noiseOffset?: number
+    noiseOffset?: number,
+    directionIndicator?: boolean
 };
 
 export function toRadians(degrees: number): number {

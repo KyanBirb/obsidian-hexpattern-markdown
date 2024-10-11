@@ -54,9 +54,12 @@ export default class SinglePatternSketch extends P5 {
 
             if(this.settings.animatePattern) {
                 this.wigglyLine(lastPoint[0], lastPoint[1], point[0], point[1],
-                    this.millis(), { noiseOffset: i });
+                    this.millis(), { noiseOffset: i, directionIndicator: this.settings.directionIndicator });
             } else {
                 this.line(lastPoint[0], lastPoint[1], point[0], point[1]);
+                if(this.settings.directionIndicator) {
+                    this.directionIndicator(lastPoint[0], lastPoint[1], point[0], point[1], 0.05);
+                }
             }
 
             lastPoint = point;
@@ -70,6 +73,7 @@ export default class SinglePatternSketch extends P5 {
         const speed = options.speed ?? 0.01;
         const frequency = options.frequency ?? 2;
         const noiseOffset = options.noiseOffset ?? 0;
+        const directionIndicator = options.directionIndicator ?? false;
 
         const angle = Math.atan2(y2 - y1, x2 - x1) + Math.PI * 0.5;
 
@@ -94,5 +98,27 @@ export default class SinglePatternSketch extends P5 {
         }
 
         this.line(lX, lY, x2, y2);
+
+        if(directionIndicator) {
+            const offset = (this.noise((time * speed), 0.5 * frequency, noiseOffset) * 2 - 1) * intensity;
+            const offX = Math.cos(angle) * offset;
+            const offY = Math.sin(angle) * offset;
+            this.directionIndicator(x1 + offX, y1 + offY, x2 + offY, y2 + offY, 0.05);
+        }
+    }
+
+    directionIndicator(x1: number, y1: number, x2: number, y2: number, size: number) {
+        const direction = -Math.atan2(y2 - y1, x2 - x1);
+        const x = (x1 + x2) / 2;
+        const y = (y1 + y2) / 2;
+
+        this.beginShape();
+        for(let i = 0; i < 3; i++) {
+            const angle = (i / 3) * this.TAU;
+            const vX = Math.cos(angle + direction) * size;
+            const vY = Math.sin(angle + direction) * size;
+            this.vertex(vX + x, vY + y);
+        }
+        this.endShape(this.CLOSE);
     }
 }

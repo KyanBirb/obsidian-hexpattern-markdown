@@ -7,6 +7,7 @@ export interface HexPatternMarkdownSettings {
 	patternColorStart: string;
     patternColorEnd: string;
     animatePattern: boolean;
+    directionIndicator: boolean;
     patternSize: number;
 }
 
@@ -14,6 +15,7 @@ export const DEFAULT_SETTINGS: Partial<HexPatternMarkdownSettings> = {
     patternColorStart: "#7f6df2",
     patternColorEnd: "#423975",
     animatePattern: true,
+    directionIndicator: false,
     patternSize: 500
 };
 
@@ -57,6 +59,16 @@ export class HexPatternMarkdownSettingsTab extends PluginSettingTab {
                 .setValue(this.plugin.settings.animatePattern)
                 .onChange(async color => {
                     this.plugin.settings.animatePattern = color;
+                    await this.plugin.saveSettings();
+                })
+            );
+
+        new Setting(containerElement)
+            .setName('Direction indicator')
+            .addToggle(toggle => toggle
+                .setValue(this.plugin.settings.directionIndicator)
+                .onChange(async color => {
+                    this.plugin.settings.directionIndicator = color;
                     await this.plugin.saveSettings();
                 })
             );

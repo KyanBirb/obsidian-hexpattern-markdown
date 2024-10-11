@@ -1,16 +1,20 @@
 import { App, PluginSettingTab, Setting } from "obsidian";
 import HexPatternMarkdown from "./main";
+import HexPattern from "./hex_pattern";
+import SinglePatternSketch from "./single_pattern_sketch";
 
 export interface HexPatternMarkdownSettings {
 	patternColorStart: string;
     patternColorEnd: string;
     animatePattern: boolean;
+    patternSize: number;
 }
 
 export const DEFAULT_SETTINGS: Partial<HexPatternMarkdownSettings> = {
     patternColorStart: "#7f6df2",
     patternColorEnd: "#423975",
-    animatePattern: true
+    animatePattern: true,
+    patternSize: 500
 };
 
 export class HexPatternMarkdownSettingsTab extends PluginSettingTab {
@@ -56,5 +60,22 @@ export class HexPatternMarkdownSettingsTab extends PluginSettingTab {
                     await this.plugin.saveSettings();
                 })
             );
+
+        new Setting(containerElement)
+            .setName('Pattern size')
+            .addSlider(slider => slider
+                .setLimits(10, 500, 10)
+                .setValue(this.plugin.settings.patternSize)
+                .setDynamicTooltip()
+                .setInstant(true)
+                .onChange(async size => {
+                    this.plugin.settings.patternSize = size;
+                    await this.plugin.saveSettings();
+                })
+            );
+        
+        const examplePattern = HexPattern.fromString('(EAST wwaqqqqqeawqwqwqwqwqwwqqeadaeqqeqqeadaeqq)');
+        const sketch = new SinglePatternSketch(examplePattern, containerElement, this.plugin);
+        
     }
 }

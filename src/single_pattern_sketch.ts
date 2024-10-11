@@ -18,11 +18,15 @@ export default class SinglePatternSketch extends P5 {
     }
 
     setup(): void {
-        this.canvas = this.createCanvas(500, 500);
+        this.canvas = this.createCanvas(0, 0);
         this.canvas.elt.style.visibility = "visible";
     }
 
     draw(): void {
+        if(this.settings.patternSize != this.width || this.settings.patternSize != this.height) {
+            this.resizeCanvas(this.settings.patternSize, this.settings.patternSize);
+        }
+
         const startColor = this.color(this.settings.patternColorStart);
         const endColor = this.color(this.settings.patternColorEnd);
 

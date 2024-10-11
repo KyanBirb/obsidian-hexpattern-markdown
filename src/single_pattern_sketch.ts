@@ -26,9 +26,17 @@ export default class SinglePatternSketch extends P5 {
         const startColor = this.color(this.settings.patternColorStart);
         const endColor = this.color(this.settings.patternColorEnd);
 
+        const patternScaleModifier = 0.9;
+        let patternScale = 1;
+        if(this.pattern.height > this.pattern.width) {
+            patternScale = this.height / this.pattern.height;
+        } else {
+            patternScale = this.width / this.pattern.width;
+        }
+
         this.clear();
         this.translate(this.width / 2, this.height / 2);
-        this.scale(100);
+        this.scale(patternScale * patternScaleModifier);
         this.translate(-this.pattern.center[0], -this.pattern.center[1]);
         this.strokeWeight(0.1);
 

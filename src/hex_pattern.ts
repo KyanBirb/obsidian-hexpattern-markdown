@@ -27,6 +27,7 @@ export default class HexPattern {
     uniquePoints: Point[] = [];
     center: Point = [0, 0];
     boundingBox: BoundingBox;
+    boundingBoxCenter: Point;
 
     width: number;
     height: number;
@@ -130,15 +131,23 @@ export default class HexPattern {
         
         this.width = maxX - minX;
         this.height = maxY - minY;
+
+        this.boundingBoxCenter = [
+            minX + (this.width / 2),
+            minY + (this.height / 2)
+        ];
     }
 
     debugRender(p5: p5): void {
-        p5.translate(-this.center[0], -this.center[1]);
 
         // Bounding box
         p5.noStroke();
         p5.fill(255);
         p5.rect(this.boundingBox.min[0], this.boundingBox.min[1], this.width, this.height);
+
+        // Bounding box center
+        p5.stroke(0, 255, 0);
+        p5.point(this.boundingBoxCenter[0], this.boundingBoxCenter[1]);
 
         // Center
         p5.stroke(255, 0, 0);

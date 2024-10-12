@@ -41,7 +41,7 @@ export default class SinglePatternSketch extends P5 {
         this.clear();
         this.translate(this.width / 2, this.height / 2);
         this.scale(patternScale * patternScaleModifier);
-        this.translate(-this.pattern.center[0], -this.pattern.center[1]);
+        this.translate(-this.pattern.boundingBoxCenter[0], -this.pattern.boundingBoxCenter[1]);
         this.strokeWeight(0.1);
 
         const points = this.pattern.points;
